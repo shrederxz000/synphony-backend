@@ -2,8 +2,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 import uvicorn
 from core.models import Base, db_helper
+from core.config import settings
 from items.views import router as items_router
 from users.views import router as users_router
+from api_v1 import router as products_router_v1
 
 
 @asynccontextmanager
@@ -18,7 +20,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.include_router(items_router)
 app.include_router(users_router)
-
+app.include_router(router=products_router_v1, prefix=settings.api_v1_prefix)
 
 
 
