@@ -3,8 +3,12 @@ from fastapi import FastAPI
 from pydantic import EmailStr, BaseModel, Field
 import uvicorn
 
+from items import router as items_router
+
 
 app = FastAPI()
+
+app.include_router(items_router)
 
 class CreateUser(BaseModel):
     name:Annotated[str, Field(min_length=1, max_length=50)] | None = None

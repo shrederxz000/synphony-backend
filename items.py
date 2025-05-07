@@ -1,3 +1,4 @@
+from typing import Annotated
 from fastapi import APIRouter, Path
 
 router = APIRouter(prefix="/item")
@@ -14,3 +15,4 @@ def get_latest_item(item_id:int):
 @router.get("/{item_id}")
 def get_item_by_id(item_id:Annotated[int, Path(ge=1, le=1000)]):
     return {'item':{"id": item_id}}
+
