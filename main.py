@@ -1,34 +1,38 @@
-from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker
-
-engine = create_engine("sqlite:///mydatabase.db")
+from typing import Annotated, Optional
+from fastapi import FastAPI
+from pydantic import EmailStr, BaseModel, Field
+import uvicorn
 
 
-Session = sessionmaker(bind=engine)
-session = Session()
+app = FastAPI()
 
-Base = declarative_base()
-
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(30))
-    email = Column(String(100), unique=True)
-
-# Создание таблиц в БД
-Base.metadata.create_all(engine)
+class CreateUser(BaseModel):
+    name:Annotated[str, Field(min_length=1, max_length=50)] | None = None
+    email:EmailStr
+    age:Annotated[int, Field(ge=18, le=120)]
 
 
-# Добавление записи
-new_user = User(name="Anya", email="anyadura@example.com")
-session.add(new_user)
-session.commit()
+@app.get('/')
+def index():
+    return {'msg':'hello'}
 
-# Запрос данных
-user = session.query(User).filter_by(name="Alice").first
-print(user.id, user.name)
+@app.get('/hello')
+def hello(name:str = 'world'):
+    name = name.strip().title()
+    return {'msg': f'hello {name}'}
 
-session.close()  # важно закрывать сессию!
+@app.post('/users')
+def create_user(user:CreateUser):
+    return {
+        'message': 'ok',
+        'name': user.name,
+        'email': user.email,
+        'age': user.age
+}
+
+
+
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host='127.0.0.1', port=8080, reload=True)
