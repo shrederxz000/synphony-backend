@@ -1,19 +1,14 @@
-from typing import Annotated, Optional
 from fastapi import FastAPI
-from pydantic import EmailStr, BaseModel, Field
 import uvicorn
 
-from items import router as items_router
+from items.views import router as items_router
+from users.views import router as users_router 
 
 
 app = FastAPI()
 
 app.include_router(items_router)
-
-class CreateUser(BaseModel):
-    name:Annotated[str, Field(min_length=1, max_length=50)] | None = None
-    email:EmailStr
-    age:Annotated[int, Field(ge=18, le=120)]
+app.include_router(users_router)
 
 
 @app.get('/')
@@ -24,18 +19,6 @@ def index():
 def hello(name:str = 'world'):
     name = name.strip().title()
     return {'msg': f'hello {name}'}
-
-@app.post('/users')
-def create_user(user:CreateUser):
-    return {
-        'message': 'ok',
-        'name': user.name,
-        'email': user.email,
-        'age': user.age
-}
-
-
-
 
 
 if __name__ == "__main__":

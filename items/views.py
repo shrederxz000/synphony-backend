@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import APIRouter, Path
 
-router = APIRouter(prefix="/item")
+router = APIRouter(prefix="/item", tags=['items'])
 
 @router.get("/")
 def items():
@@ -9,7 +9,7 @@ def items():
 
 
 @router.get("/latest")
-def get_latest_item(item_id:int):
+def get_latest_item():
     return {'item':{'id':'0', 'name': 'latest'}}
 
 @router.get("/{item_id}")
