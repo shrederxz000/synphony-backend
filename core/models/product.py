@@ -5,7 +5,7 @@ from .base import Base
 
 class Product(Base):
     
-    name: Mapped[str] = mapped_column(String(100))
-    description:Mapped[str | None] = mapped_column(String(10000))
-    price: Mapped[int] = mapped_column(Integer)
+    name: Mapped[str] = mapped_column()
+    description:Mapped[str | None] = mapped_column()
+    price: Mapped[int] = mapped_column()
 
