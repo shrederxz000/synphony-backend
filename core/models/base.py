@@ -8,6 +8,6 @@ class Base(DeclarativeBase):
     def __tablename__(cls) -> str:
         return f"symphony_market_{cls.__name__.lower()}s"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
 
 

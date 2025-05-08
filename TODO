@@ -1,0 +1,10 @@
+FIXME:Исправить проблему при запуске роута на создание продукта
+
+ File "/home/shrederxz/symphony-backend/api_v1/products/views.py", line 29, in create_product
+    product = await crud.create_product(session=session, product_in=product_in)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shrederxz/symphony-backend/api_v1/products/crud.py", line 21, in create_product
+    session.add(product)
+    ^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'add'
+

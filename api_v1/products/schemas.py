@@ -3,12 +3,12 @@ from pydantic import EmailStr, BaseModel, Field, ConfigDict
 
 
 class ProductBase(BaseModel):
-    name:str = Field(min_length=1, max_length=100)
+    name:str = Field(max_length=100)
     description:str | None = Field(max_length=10000)
-    price:int 
+    price:int = Field(ge=1)
 
 
-class ProductCreate(BaseModel):
+class ProductCreate(ProductBase):
     pass
 
 
